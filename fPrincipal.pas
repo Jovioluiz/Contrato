@@ -5,10 +5,10 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, uServicoContrato, Data.DB,
-  Vcl.Grids, Vcl.DBGrids;
+  Vcl.Grids, Vcl.DBGrids, uListaDados;
 
 type
-  TForm1 = class(TForm)
+  TfrmPrincipal = class(TForm)
     edtNumeroContrato: TEdit;
     edtValorContrato: TEdit;
     edtData: TEdit;
@@ -18,17 +18,22 @@ type
     Label3: TLabel;
     Label4: TLabel;
     Button1: TButton;
-    DBGrid1: TDBGrid;
+    dbGrid: TDBGrid;
     procedure Button1Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
+    FListaDados: TListaDados;
     { Private declarations }
     procedure ProcessaContrato(NumeroContrato: Integer; Data: TDateTime; ValorContrato: Currency; NumeroParcelas: Integer);
+    procedure SetListaDados(const Value: TListaDados);
   public
     { Public declarations }
+    property ListaDados: TListaDados read FListaDados write SetListaDados;
   end;
 
 var
-  Form1: TForm1;
+  frmPrincipal: TfrmPrincipal;
 
 implementation
 
@@ -36,12 +41,26 @@ implementation
 
 uses uContrato, uServicoPayPal;
 
-procedure TForm1.Button1Click(Sender: TObject);
+procedure TfrmPrincipal.Button1Click(Sender: TObject);
 begin
-  ProcessaContrato(StrToInt(edtNumeroContrato.Text), StrToDate(edtData.Text), StrToCurr(edtValorContrato.Text), StrToInt(edtNumeroParcelas.Text));
+  ProcessaContrato(StrToInt(edtNumeroContrato.Text),
+                   StrToDate(edtData.Text),
+                   StrToCurr(edtValorContrato.Text),
+                   StrToInt(edtNumeroParcelas.Text));
 end;
 
-procedure TForm1.ProcessaContrato(NumeroContrato: Integer; Data: TDateTime; ValorContrato: Currency; NumeroParcelas: Integer);
+procedure TfrmPrincipal.FormCreate(Sender: TObject);
+begin
+  FListaDados := TListaDados.Create;
+  dbGrid.DataSource := FListaDados.Dados.ds;
+end;
+
+procedure TfrmPrincipal.FormDestroy(Sender: TObject);
+begin
+  FListaDados.Free;
+end;
+
+procedure TfrmPrincipal.ProcessaContrato(NumeroContrato: Integer; Data: TDateTime; ValorContrato: Currency; NumeroParcelas: Integer);
 var
   contrato: TContrato;
   servicoContrato: TServicoContrato;
@@ -55,10 +74,23 @@ begin
     contrato.ValorTotal := ValorContrato;
     servicoContrato.ProcessaContrato(contrato, NumeroParcelas);
 
+    for var par in contrato.Parcelas do
+    begin
+      FListaDados.Dados.cds.Append;
+      FListaDados.Dados.cds.FieldByName('data_vencimento').AsDateTime := par.DataVencimento;
+      FListaDados.Dados.cds.FieldByName('valor_parcela').AsCurrency := par.ValorParcela;
+      FListaDados.Dados.cds.Post;
+    end;
+
   finally
     contrato.Free;
     servicoContrato.Free;
   end;
+end;
+
+procedure TfrmPrincipal.SetListaDados(const Value: TListaDados);
+begin
+  FListaDados := Value;
 end;
 
 end.

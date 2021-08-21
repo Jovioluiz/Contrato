@@ -41,8 +41,8 @@ begin
 
     for var i := 0 to Pred(Meses) do
     begin
-      Parcela.DataVencimento := IncMonth(Contrato.Data, i+1);
-      valorParcela := valorBase + FServicoPayPal.AdicaoParcela(valorBase, i+1);
+      Parcela.DataVencimento := IncMonth(Contrato.Data, i + 1);
+      valorParcela := valorBase + FServicoPayPal.AdicaoParcela(valorBase, i + 1);
       Parcela.ValorParcela := valorParcela + FServicoPayPal.TaxaPagamento(valorParcela);
 
       Contrato.AddParcelas(Parcela);

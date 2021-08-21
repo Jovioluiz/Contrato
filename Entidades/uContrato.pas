@@ -10,7 +10,7 @@ type TContrato = class
     FNumero: Integer;
     FData: TDateTime;
     FValorTotal: Currency;
-    FParcelas: TList<TParcela>;
+    FParcelas: TObjectList<TParcela>;
     procedure SetNumero(const Value: Integer);
     procedure SetData(const Value: TDateTime);
     procedure SetValorTotal(const Value: Currency);
@@ -23,7 +23,7 @@ type TContrato = class
     property Numero: Integer read FNumero write SetNumero;
     property Data: TDateTime read FData write SetData;
     property ValorTotal: Currency read FValorTotal write SetValorTotal;
-    property Parcelas: TList<TParcela> read FParcelas write FParcelas;
+    property Parcelas: TObjectList<TParcela> read FParcelas write FParcelas;
 
 end;
 
@@ -32,13 +32,18 @@ implementation
 { TContrato }
 
 procedure TContrato.AddParcelas(Parcelas: TParcela);
+var
+  i: integer;
 begin
-  FParcelas.Add(Parcelas);
+  FParcelas.Add(TParcela.Create);
+  i := FParcelas.Count - 1;
+  FParcelas[i].DataVencimento := Parcelas.DataVencimento;
+  FParcelas[i].ValorParcela := Parcelas.ValorParcela;
 end;
 
 constructor TContrato.Create;
 begin
-  FParcelas := TList<TParcela>.Create;
+  FParcelas := TObjectList<TParcela>.Create;
 end;
 
 destructor TContrato.Destroy;

@@ -99,7 +99,7 @@
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
         <DCCReference Include="fPrincipal.pas">
-            <Form>Form1</Form>
+            <Form>frmPrincipal</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="Entidades\uContrato.pas"/>
@@ -107,6 +107,12 @@
         <DCCReference Include="Servicos\uServicoPagamento.pas"/>
         <DCCReference Include="Servicos\uServicoPayPal.pas"/>
         <DCCReference Include="Servicos\uServicoContrato.pas"/>
+        <DCCReference Include="DataModulo\uDataModulo.pas">
+            <Form>dm</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Entidades\uListaDados.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

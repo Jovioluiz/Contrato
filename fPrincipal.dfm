@@ -1,7 +1,7 @@
-object Form1: TForm1
+object frmPrincipal: TfrmPrincipal
   Left = 0
   Top = 0
-  Caption = 'Form1'
+  Caption = 'frmPrincipal'
   ClientHeight = 428
   ClientWidth = 615
   Color = clBtnFace
@@ -11,6 +11,9 @@ object Form1: TForm1
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  Position = poScreenCenter
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -78,7 +81,7 @@ object Form1: TForm1
     TabOrder = 4
     OnClick = Button1Click
   end
-  object DBGrid1: TDBGrid
+  object dbGrid: TDBGrid
     Left = 8
     Top = 208
     Width = 599
