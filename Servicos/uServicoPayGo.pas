@@ -1,31 +1,32 @@
-unit uServicoPayPal;
+unit uServicoPayGo;
 
 interface
 
 uses
   uServicoPagamento, math;
 
-type TServicoPayPal = class(TInterfacedObject, IServicoPagamento)
+type TServicoPayGo = class(TInterfacedObject, IServicoPagamento)
 
   public
     function TaxaPagamento(Valor: Currency): Currency;
     function AdicaoParcela(Montante: Currency; Meses: Integer): Currency;
+
 end;
 
 implementation
 
 const
-  FTaxaPercentual = 0.02;
-  FTaxaMensal = 0.01;
+  FTaxaPercentual = 0.09;
+  FTaxaMensal = 0.025;
 
-{ TServicoPayPal }
+{ TServicoPayGo }
 
-function TServicoPayPal.AdicaoParcela(Montante: Currency; Meses: Integer): Currency;
+function TServicoPayGo.AdicaoParcela(Montante: Currency; Meses: Integer): Currency;
 begin
   Result := RoundTo(Montante * FTaxaMensal * Meses, -2);
 end;
 
-function TServicoPayPal.TaxaPagamento(Valor: Currency): Currency;
+function TServicoPayGo.TaxaPagamento(Valor: Currency): Currency;
 begin
   Result := RoundTo(Valor * FTaxaPercentual, -2);
 end;

@@ -9,12 +9,14 @@ uses
   uServicoPayPal in 'Servicos\uServicoPayPal.pas',
   uServicoContrato in 'Servicos\uServicoContrato.pas',
   uDataModulo in 'DataModulo\uDataModulo.pas' {dm: TDataModule},
-  uListaDados in 'Entidades\uListaDados.pas';
+  uListaDados in 'Entidades\uListaDados.pas',
+  uServicoPayGo in 'Servicos\uServicoPayGo.pas';
 
 {$R *.res}
 
 begin
   Application.Initialize;
+  ReportMemoryLeaksOnShutdown := True;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
   Application.CreateForm(Tdm, dm);

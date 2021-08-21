@@ -7,13 +7,13 @@ uses
 
 type TServicoContrato = class
   private
-    FServicoPayPal: IServicoPagamento;
+    FTipoService: IServicoPagamento;
 
   public
     procedure ProcessaContrato(Contrato: TContrato; Meses: Integer);
     constructor Create(Servico: IServicoPagamento);
 
-    property ServicePaypal: IServicoPagamento read FServicoPayPal write FServicoPayPal;
+    property TipoService: IServicoPagamento read FTipoService write FTipoService;
 end;
 
 implementation
@@ -25,7 +25,7 @@ uses
 
 constructor TServicoContrato.Create(Servico: IServicoPagamento);
 begin
-  FServicoPayPal := Servico;
+  FTipoService := Servico;
 end;
 
 procedure TServicoContrato.ProcessaContrato(Contrato: TContrato; Meses: Integer);
@@ -42,8 +42,8 @@ begin
     for var i := 0 to Pred(Meses) do
     begin
       Parcela.DataVencimento := IncMonth(Contrato.Data, i + 1);
-      valorParcela := valorBase + FServicoPayPal.AdicaoParcela(valorBase, i + 1);
-      Parcela.ValorParcela := valorParcela + FServicoPayPal.TaxaPagamento(valorParcela);
+      valorParcela := valorBase + FTipoService.AdicaoParcela(valorBase, i + 1);
+      Parcela.ValorParcela := valorParcela + FTipoService.TaxaPagamento(valorParcela);
 
       Contrato.AddParcelas(Parcela);
     end;

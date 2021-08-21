@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, uServicoContrato, Data.DB,
-  Vcl.Grids, Vcl.DBGrids, uListaDados;
+  Vcl.Grids, Vcl.DBGrids, uListaDados, Vcl.ExtCtrls;
 
 type
   TfrmPrincipal = class(TForm)
@@ -19,6 +19,7 @@ type
     Label4: TLabel;
     Button1: TButton;
     dbGrid: TDBGrid;
+    rgTipoServico: TRadioGroup;
     procedure Button1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -39,7 +40,7 @@ implementation
 
 {$R *.dfm}
 
-uses uContrato, uServicoPayPal;
+uses uContrato, uServicoPayPal, uServicoPayGo;
 
 procedure TfrmPrincipal.Button1Click(Sender: TObject);
 begin
@@ -66,7 +67,11 @@ var
   servicoContrato: TServicoContrato;
 begin
   contrato := TContrato.Create;
-  servicoContrato := TServicoContrato.Create(TServicoPayPal.Create);
+
+  if rgTipoServico.ItemIndex = 0 then
+    servicoContrato := TServicoContrato.Create(TServicoPayPal.Create)
+  else
+    servicoContrato := TServicoContrato.Create(TServicoPayGo.Create);
 
   try
     contrato.Numero := NumeroContrato;
@@ -74,6 +79,7 @@ begin
     contrato.ValorTotal := ValorContrato;
     servicoContrato.ProcessaContrato(contrato, NumeroParcelas);
 
+    FListaDados.Dados.cds.EmptyDataSet;
     for var par in contrato.Parcelas do
     begin
       FListaDados.Dados.cds.Append;

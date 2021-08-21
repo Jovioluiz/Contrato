@@ -18,20 +18,20 @@ object frmPrincipal: TfrmPrincipal
   TextHeight = 13
   object Label1: TLabel
     Left = 8
-    Top = 32
+    Top = 40
     Width = 83
     Height = 13
     Caption = 'Numero Contrato'
   end
   object Label2: TLabel
-    Left = 8
+    Left = 68
     Top = 67
     Width = 23
     Height = 13
     Caption = 'Data'
   end
   object Label3: TLabel
-    Left = 8
+    Left = 21
     Top = 94
     Width = 70
     Height = 13
@@ -74,7 +74,7 @@ object frmPrincipal: TfrmPrincipal
   end
   object Button1: TButton
     Left = 97
-    Top = 160
+    Top = 152
     Width = 75
     Height = 25
     Caption = 'Calcular'
@@ -92,5 +92,16 @@ object frmPrincipal: TfrmPrincipal
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
+  end
+  object rgTipoServico: TRadioGroup
+    Left = 224
+    Top = 32
+    Width = 185
+    Height = 102
+    Caption = 'Tipo  Servi'#231'o'
+    Items.Strings = (
+      'PayPal'
+      'PayGo')
+    TabOrder = 6
   end
 end
