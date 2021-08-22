@@ -74,7 +74,7 @@ object frmPrincipal: TfrmPrincipal
   end
   object Button1: TButton
     Left = 97
-    Top = 152
+    Top = 140
     Width = 75
     Height = 25
     Caption = 'Calcular'
@@ -83,9 +83,9 @@ object frmPrincipal: TfrmPrincipal
   end
   object dbGrid: TDBGrid
     Left = 8
-    Top = 208
+    Top = 171
     Width = 599
-    Height = 201
+    Height = 238
     TabOrder = 5
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText

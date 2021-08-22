@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, uServicoContrato, Data.DB,
-  Vcl.Grids, Vcl.DBGrids, uListaDados, Vcl.ExtCtrls;
+  Vcl.Grids, Vcl.DBGrids, uListaDados, Vcl.ExtCtrls, System.Generics.Collections, uContrato;
 
 type
   TfrmPrincipal = class(TForm)
@@ -40,7 +40,7 @@ implementation
 
 {$R *.dfm}
 
-uses uContrato, uServicoPayPal, uServicoPayGo;
+uses uServicoPayPal, uServicoPayGo;
 
 procedure TfrmPrincipal.Button1Click(Sender: TObject);
 begin
@@ -67,13 +67,14 @@ var
   servicoContrato: TServicoContrato;
 begin
   contrato := TContrato.Create;
-
-  if rgTipoServico.ItemIndex = 0 then
-    servicoContrato := TServicoContrato.Create(TServicoPayPal.Create)
-  else
-    servicoContrato := TServicoContrato.Create(TServicoPayGo.Create);
+  servicoContrato := nil;
 
   try
+    case rgTipoServico.ItemIndex of
+      0: servicoContrato := TServicoContrato.Create(TServicoPayPal.Create);
+      1: servicoContrato := TServicoContrato.Create(TServicoPayGo.Create);
+    end;
+
     contrato.Numero := NumeroContrato;
     contrato.Data := Data;
     contrato.ValorTotal := ValorContrato;
