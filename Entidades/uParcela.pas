@@ -31,7 +31,7 @@ end;
 
 function TParcela.ToString: string;
 begin
-
+  Result := '';
 end;
 
 end.
