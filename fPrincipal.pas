@@ -75,18 +75,21 @@ begin
       1: servicoContrato := TServicoContrato.Create(TServicoPayGo.Create);
     end;
 
-    contrato.Numero := NumeroContrato;
-    contrato.Data := Data;
-    contrato.ValorTotal := ValorContrato;
-    servicoContrato.ProcessaContrato(contrato, NumeroParcelas);
-
-    FListaDados.Dados.cds.EmptyDataSet;
-    for var par in contrato.Parcelas do
+    if Assigned(servicoContrato) then
     begin
-      FListaDados.Dados.cds.Append;
-      FListaDados.Dados.cds.FieldByName('data_vencimento').AsDateTime := par.DataVencimento;
-      FListaDados.Dados.cds.FieldByName('valor_parcela').AsCurrency := par.ValorParcela;
-      FListaDados.Dados.cds.Post;
+      contrato.Numero := NumeroContrato;
+      contrato.Data := Data;
+      contrato.ValorTotal := ValorContrato;
+      servicoContrato.ProcessaContrato(contrato, NumeroParcelas);
+
+      FListaDados.Dados.cds.EmptyDataSet;
+      for var par in contrato.Parcelas do
+      begin
+        FListaDados.Dados.cds.Append;
+        FListaDados.Dados.cds.FieldByName('data_vencimento').AsDateTime := par.DataVencimento;
+        FListaDados.Dados.cds.FieldByName('valor_parcela').AsCurrency := par.ValorParcela;
+        FListaDados.Dados.cds.Post;
+      end;
     end;
 
   finally

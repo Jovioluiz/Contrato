@@ -75,7 +75,7 @@ object frmPrincipal: TfrmPrincipal
   object Button1: TButton
     Left = 97
     Top = 140
-    Width = 75
+    Width = 121
     Height = 25
     Caption = 'Calcular'
     TabOrder = 4
